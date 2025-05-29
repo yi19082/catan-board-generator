@@ -24,8 +24,48 @@ const numbers = [
     10, 10, 10,
     11, 11,
     12,
-    '',''
+    0,0
 ];
+
+const adjacencyList = {
+        0: [1, 2, 4],
+        1: [0, 3, 4, 7],
+        2: [0, 4, 5, 8],
+        3: [1, 6, 7, 10],
+        4: [0, 1, 2, 7, 8, 11],
+        5: [2, 8, 9, 12],
+        6: [3, 10, 13],
+        7: [1, 3, 4, 10, 11, 14],
+        8: [2, 4, 5, 11, 12, 15],
+        9: [5, 12, 16],
+        10: [3, 6, 7, 13, 14, 17],
+        11: [4, 7, 8, 14, 15, 18],
+        12: [5, 8, 9, 15, 16, 19],
+        13: [6, 10, 17, 20],
+        14: [7, 10, 11, 17, 18, 21],
+        15: [8, 11, 12, 18, 19, 22],
+        16: [9, 12, 19, 23],
+        17: [10, 13, 14, 20, 21, 24],
+        18: [11, 14, 15, 21, 22, 25],
+        19: [12, 15, 16, 22, 23, 26],
+        20: [13, 17, 24, 27],
+        21: [14, 17, 18, 24, 25, 28],
+        22: [15, 18, 19, 25, 26, 29],
+        23: [16, 19, 26, 30],
+        24: [17, 20, 21, 27, 28, 31],
+        25: [18, 21, 22, 28, 29, 32],
+        26: [19, 22, 23, 29, 30, 33],
+        27: [20, 24, 31],
+        28: [21, 24, 25, 31, 32, 34],
+        29: [22, 25, 26, 32, 33, 35],
+        30: [23, 26, 33],
+        31: [24, 27, 28, 34],
+        32: [25, 28, 29, 34, 35, 36],
+        33: [26, 29, 30, 35],
+        34: [28, 31, 32, 36],
+        35: [29, 32, 33, 36],
+        36: [32, 34, 35]
+    }
 
 // Helper to get dots for a number
 function getDots(num) {
@@ -39,19 +79,56 @@ function getDots(num) {
     }
 }
 
+
+
 window.generateBoard = function() {
     let shuffledResources = resources.slice();
     const allowedNumbers = [3, 4, 5, 9, 10, 11];
     // add 5 more random numbers from 3 to 11
     const additionalNumbers = Array.from({ length: 5 }, () => allowedNumbers[Math.floor(Math.random() * allowedNumbers.length)]);
     let allNumbers = numbers.concat(additionalNumbers);
+
     shuffleArray(shuffledResources);
-    let numberChits = allNumbers.filter(n => n !== "");
-    shuffleArray(numberChits);
 
-    let chitIndex = 0;
+    // Find desert tile indexes
+    const desertIndexes = [];
+    for (let i = 0; i < shuffledResources.length; i++) {
+        if (shuffledResources[i] === "desert") {
+            desertIndexes.push(i);
+        }
+    }
 
-    for (let i = 0; i < 37; i++) {
+    // Prepare number chits: assign 0 to deserts, non-zero chits to others
+    let nonZeroChits = allNumbers.filter(n => n !== 0);
+    shuffleArray(nonZeroChits);
+
+    let numberChits = [];
+    let nonZeroIndex = 0;
+    for (let i = 0; i < shuffledResources.length; i++) {
+        if (shuffledResources[i] === "desert") {
+            numberChits[i] = 0;
+        } else {
+            numberChits[i] = nonZeroChits[nonZeroIndex++];
+        }
+    }
+
+    // Shuffle until valid if needed
+    const prevent68 = !document.getElementById('adjacent_6_8_input').checked;
+    if (prevent68) {
+        while (!isValid68Placement(shuffledResources, numberChits, adjacencyList)) {
+            shuffleArray(nonZeroChits);
+            nonZeroIndex = 0;
+            for (let i = 0; i < shuffledResources.length; i++) {
+                if (shuffledResources[i] === "desert") {
+                    numberChits[i] = 0;
+                } else {
+                    numberChits[i] = nonZeroChits[nonZeroIndex++];
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < shuffledResources.length; i++) {
         const tile = document.getElementById(`tile-${i}`);
         const circle = document.getElementById(`circle-${i}`);
         if (tile && circle) {
@@ -76,7 +153,7 @@ window.generateBoard = function() {
                     dots.classList.remove("high-prob");
                 }
             } else {
-                const chitValue = numberChits[chitIndex];
+                const chitValue = numberChits[i];
                 if (chit) {
                     chit.textContent = chitValue;
                     if (chitValue == 6 || chitValue == 8) {
@@ -102,8 +179,29 @@ window.generateBoard = function() {
                     }
                     circle.appendChild(newDots);
                 }
-                chitIndex++;
             }
         }
     }
 };
+
+
+function isValid68Placement(tiles, chitValues, adjacencyList) {
+    // adjacencyList: array of arrays, where each index contains the indices of adjacent tiles
+    for (let i = 0; i < tiles.length; i++) {
+        const chit = chitValues[i];
+        const tileType = tiles[i];
+        // Desert tiles must have chit 0
+        if (tileType === "desert" && chit !== 0) {
+            return false;
+        }
+        if (chit == 6 || chit == 8) {
+            for (const neighbor of adjacencyList[i]) {
+                const neighborChit = chitValues[neighbor];
+                if (neighborChit == 6 || neighborChit == 8) {
+                    return false; // Found adjacent 6 and 8
+                }
+            }
+        }
+    }
+    return true;
+}
