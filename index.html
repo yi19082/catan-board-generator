@@ -1,0 +1,137 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Catan Board Generator - Settlers of Catan Map Builder</title>
+    <meta name="description" content="Settlers of Catan Map Generator for normal and expansion. Build fair boards that follow your custom house rules.">
+
+    <link rel="stylesheet" type="text/css" href="./common.css">
+    <link rel="stylesheet" type="text/css" href="./map_select.css">
+    <link rel="stylesheet" type="text/css" href="./style_by_orientation.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+
+<body>
+
+    <header class="newTitle" id="title">
+        <h1><span class="theBetterTitle">The Better</span><br>
+            <span class="catanTitle">Catan Board</span><br>
+            <span class="generatorTitle">Generator</span>
+        </h1>
+        <nav class="myNav">
+            <ul>
+                <li class="myLi">
+                    <a class="links" href="https://forms.gle/JuTFRjxeffMhPYss6" target="_blank">Feedback</a>
+                </li>
+                <li class="myLi">
+                    <a class="links" href="https://www.bunge.io" target="_blank">Contact</a>
+                </li>
+            </ul>
+        </nav>
+        <section id="top_content">
+            <section id="map-select">
+                <div class="map-select-menu-row-center">
+                    <a class="map-links" href="./index.html">
+                        <label class="map-button available-map-button">Classic</label>
+                    </a>
+                    <a class="map-links" href="./expansion.html">
+                        <label class="map-button available-map-button">Expansion</label>
+                    </a>
+                    <a class="map-links" href="./super_expansion.html">
+                        <label class="map-button available-map-button">Super Expansion</label>
+                    </a>
+                </div>
+            </section>
+            <div class="description">
+                <p>Map generator for Settlers of Catan for Normal and Expansion Pack. Use the generation options to
+                    build a
+                    board that works for your house rules.</p>
+            </div>
+            <section id="inline-options">
+                <button id="btnOps" type="button" class="commonOpsbutton" onclick="toggleOptions()">Options</button>
+                <button id="shuffleButton" type="button" class="commonShuffle" onclick="generateBoard()">Shuffle</button>
+            </section>
+        </section>
+    </header>
+
+    <section class="commonNormalBoard board" id="board"><div class="normalBorderCommon border-normal"></div><div class="hex-normal hex-base wheat" style="left:34.99655%;top:24.45%" id="tile-0" )="" alt="wheat">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-0"><div class="tile-chit-normal chit-number-base">9</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
+              </div><div class="hex-normal hex-base wood" style="left:50%;top:24.45%" id="tile-1" )="" alt="wood">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-1"><div class="tile-chit-normal chit-number-base">5</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
+              </div><div class="hex-normal hex-base ore" style="left:65.00345%;top:24.45%" id="tile-2" )="" alt="ore">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-2"><div class="tile-chit-normal chit-number-base">4</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
+              </div><div class="hex-normal hex-base ore" style="left:27.494825000000002%;top:37.225%" id="tile-3" )="" alt="ore">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-3"><div class="tile-chit-normal chit-number-base">10</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
+              </div><div class="hex-normal hex-base sheep" style="left:42.498275%;top:37.225%" id="tile-4" )="" alt="sheep">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-4"><div class="tile-chit-normal chit-number-base">3</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
+              </div><div class="hex-normal hex-base sheep high-prob" style="left:57.501725%;top:37.225%" id="tile-5" )="" alt="sheep">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-5"><div class="tile-chit-normal chit-number-base">8</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
+              </div><div class="hex-normal hex-base desert" style="left:72.505175%;top:37.225%" id="tile-6" )="" alt="desert">
+                  <div class="circle-normal circle-base font-size-wrap desert-chit" id="circle-6"><div class="tile-chit-normal chit-number-base"></div></div>
+              </div><div class="hex-normal hex-base ore high-prob" style="left:19.993100000000002%;top:50%" id="tile-7" )="" alt="ore">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-7"><div class="tile-chit-normal chit-number-base">6</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
+              </div><div class="hex-normal hex-base wood" style="left:34.99655%;top:50%" id="tile-8" )="" alt="wood">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-8"><div class="tile-chit-normal chit-number-base">9</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
+              </div><div class="hex-normal hex-base brick" style="left:50%;top:50%" id="tile-9" )="" alt="brick">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-9"><div class="tile-chit-normal chit-number-base">4</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
+              </div><div class="hex-normal hex-base wheat" style="left:65.00345%;top:50%" id="tile-10" )="" alt="wheat">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-10"><div class="tile-chit-normal chit-number-base">11</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
+              </div><div class="hex-normal hex-base wood high-prob" style="left:80.0069%;top:50%" id="tile-11" )="" alt="wood">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-11"><div class="tile-chit-normal chit-number-base">6</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
+              </div><div class="hex-normal hex-base wood" style="left:27.494825000000002%;top:62.775%" id="tile-12" )="" alt="wood">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-12"><div class="tile-chit-normal chit-number-base">10</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
+              </div><div class="hex-normal hex-base brick" style="left:42.498275%;top:62.775%" id="tile-13" )="" alt="brick">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-13"><div class="tile-chit-normal chit-number-base">11</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
+              </div><div class="hex-normal hex-base wheat" style="left:57.501725%;top:62.775%" id="tile-14" )="" alt="wheat">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-14"><div class="tile-chit-normal chit-number-base">3</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
+              </div><div class="hex-normal hex-base brick" style="left:72.505175%;top:62.775%" id="tile-15" )="" alt="brick">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-15"><div class="tile-chit-normal chit-number-base">12</div><div class="prob-dots-base small-font-size-wrap">.<div></div></div></div>
+              </div><div class="hex-normal hex-base wheat" style="left:34.99655%;top:75.55%" id="tile-16" )="" alt="wheat">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-16"><div class="tile-chit-normal chit-number-base">5</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
+              </div><div class="hex-normal hex-base sheep high-prob" style="left:50%;top:75.55%" id="tile-17" )="" alt="sheep">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-17"><div class="tile-chit-normal chit-number-base">8</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
+              </div><div class="hex-normal hex-base sheep" style="left:65.00345%;top:75.55%" id="tile-18" )="" alt="sheep">
+                  <div class="circle-normal circle-base font-size-wrap" id="circle-18"><div class="tile-chit-normal chit-number-base">2</div><div class="prob-dots-base small-font-size-wrap">.<div></div></div></div>
+              </div></section>
+    <div id="overlay" class="hidden"></div>
+    <section id="popmenu" class="hidden">
+
+        <h2>Generation Custom Rules</h2><br>
+        <div class="settingswrap">
+            <input id="selected-map" type="hidden" value="normal">
+            <div class="menu-row">
+                <label class="mylabel">Image Style</label>
+                <select id="image_option_input" onchange="toggleDisplaySetting('switchimages')">
+                    <option value="colorBlocked">Colorblock</option>
+                    <option value="newAssets" selected="">Classic</option>
+                </select>
+            </div>
+            <div class="menu-row">
+                <label class="mylabel">6 &amp; 8 Can Touch</label>
+                <input id="adjacent_6_8_input" onchange="toggleSetting('6_8')" type="checkbox"><br>
+            </div>
+            <div class="menu-row">
+                <label class="mylabel">2 &amp; 12 Can Touch</label>
+                <input id="adjacent_2_12_input" onchange="toggleSetting('2_12')" type="checkbox"><br>
+            </div>
+            <div class="menu-row">
+                <label class="mylabel">Same Numbers Can Touch</label>
+                <input id="adjacent_same_numbers_input" onchange="toggleSetting('same_number')" type="checkbox"><br>
+            </div>
+            <div id="sameResourceSetting" class="menu-row">
+                <label class="mylabel">Same Resource Can Touch</label>
+                <input id="adjacent_same_resource_input" onchange="toggleSetting('same_resource')" type="checkbox"><br>
+            </div>
+            <button type="button" class="menuclosebutton" onclick="toggleOptions()">Close Options</button>
+        </div>
+
+    </section>
+    <footer></footer>
+
+<script async="" id="netlify-rum-container" src="/.netlify/scripts/rum" data-netlify-rum-site-id="f8873d4d-49fc-4462-b83e-df663c632408" data-netlify-deploy-branch="master" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiZjg4NzNkNGQtNDlmYy00NDYyLWI4M2UtZGY2NjNjNjMyNDA4IiwiYWNjb3VudF9pZCI6IjVkMzcxNTgwYWFiMDVkZjYzYzI3MjViZSIsImRlcGxveV9pZCI6IjY2NGE3MTNkOTIzNTY2MDAwOGQ1NjdhMSIsImlzc3VlciI6Im5mc2VydmVyIn0.jduK-bOxo3n_laRcpbPC1bBGLdSBsq1bEPemy1eGjqg"></script>
+
+<script type="text/javascript" src="./index.min.js"></script></body></html>
