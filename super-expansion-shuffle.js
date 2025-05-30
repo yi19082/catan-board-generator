@@ -232,3 +232,10 @@ function buildResourcesArray() {
     }
     return arr;
 }
+
+function closeOptions() {
+    var menu = document.getElementById('popmenu');
+    var overlay = document.getElementById('overlay');
+    if (menu) menu.classList.add('hidden');
+    if (overlay) overlay.classList.add('hidden');
+}
