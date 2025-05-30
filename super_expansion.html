@@ -134,39 +134,35 @@
                   <div class="circle-expanded circle-base font-size-wrap" id="circle-36"><div class="tile-chit-expanded chit-number-base">2</div><div class="prob-dots-base small-font-size-wrap">.<div></div></div></div>
                 </div></section>
             
-                <div id="overlay" class="hidden"></div>
-    <section id="popmenu" class="hidden">
-
-        <h2>Generation Custom Rules</h2><br>
+                <section id="popmenu" class="popup-dialog hidden">
+    <div class="popup-content">
+        <h2>Generation Custom Rules</h2>
+        <br>
         <div class="settingswrap">
-            <input id="selected-map" type="hidden" value="normal">
-            <div class="menu-row">
-                <label class="mylabel">Image Style</label>
-                <select id="image_option_input" onchange="toggleDisplaySetting('switchimages')">
-                    <option value="colorBlocked">Colorblock</option>
-                    <option value="newAssets" selected="">Classic</option>
-                </select>
-            </div>
             <div class="menu-row">
                 <label class="mylabel">6 &amp; 8 Can Touch</label>
                 <input id="adjacent_6_8_input" onchange="toggleSetting('6_8')" type="checkbox"><br>
             </div>
             <div class="menu-row">
-                <label class="mylabel">2 &amp; 12 Can Touch</label>
-                <input id="adjacent_2_12_input" onchange="toggleSetting('2_12')" type="checkbox"><br>
+                <label class="mylabel">Sheep</label>
+                <input id="num_sheep" type="number" min="0" max="20" value="11"><br>
+                <label class="mylabel">Wood</label>
+                <input id="num_wood" type="number" min="0" max="20" value="6"><br>
+                <label class="mylabel">Brick</label>
+                <input id="num_brick" type="number" min="0" max="20" value="6"><br>
+                <label class="mylabel">Wheat</label>
+                <input id="num_wheat" type="number" min="0" max="20" value="6"><br>
+                <label class="mylabel">Ore</label>
+                <input id="num_ore" type="number" min="0" max="20" value="6"><br>
+                <label class="mylabel">Desert</label>
+                <input id="num_desert" type="number" min="0" max="5" value="2"><br>
             </div>
-            <div class="menu-row">
-                <label class="mylabel">Same Numbers Can Touch</label>
-                <input id="adjacent_same_numbers_input" onchange="toggleSetting('same_number')" type="checkbox"><br>
-            </div>
-            <div id="sameResourceSetting" class="menu-row">
-                <label class="mylabel">Same Resource Can Touch</label>
-                <input id="adjacent_same_resource_input" onchange="toggleSetting('same_resource')" type="checkbox"><br>
-            </div>
-            <button type="button" class="menuclosebutton" onclick="toggleOptions()">Close Options</button>
         </div>
-
-    </section>
+        
+        <button class="popup-close" onclick="toggleOptions()" aria-label="Close">save</button>
+    </div>
+</section>
+<div id="overlay" class="hidden"></div>
     <footer></footer>
 
 <script async="" id="netlify-rum-container" src="/.netlify/scripts/rum" data-netlify-rum-site-id="f8873d4d-49fc-4462-b83e-df663c632408" data-netlify-deploy-branch="master" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiZjg4NzNkNGQtNDlmYy00NDYyLWI4M2UtZGY2NjNjNjMyNDA4IiwiYWNjb3VudF9pZCI6IjVkMzcxNTgwYWFiMDVkZjYzYzI3MjViZSIsImRlcGxveV9pZCI6IjY2NGE3MTNkOTIzNTY2MDAwOGQ1NjdhMSIsImlzc3VlciI6Im5mc2VydmVyIn0.jduK-bOxo3n_laRcpbPC1bBGLdSBsq1bEPemy1eGjqg"></script>
@@ -179,12 +175,20 @@
 <script>
     function toggleOptions() {
         var menu = document.getElementById('popmenu');
+        var overlay = document.getElementById('overlay');
+        var wasOpen = menu && !menu.classList.contains('hidden');
         if (menu) {
             menu.classList.toggle('hidden');
         }
-        var overlay = document.getElementById('overlay');
         if (overlay) {
             overlay.classList.toggle('hidden');
+        }
+        // Only generate board if menu was open (now closing)
+        if (wasOpen && typeof generateBoard === "function") {
+            // Only generate if resource count is valid
+            if (buildResourcesArray()) {
+                generateBoard();
+            }
         }
     }
 </script>
