@@ -82,7 +82,7 @@ function getDots(num) {
 
 
 window.generateBoard = function() {
-    let shuffledResources = resources.slice();
+    let shuffledResources = buildResourcesArray();
     const allowedNumbers = [3, 4, 5, 9, 10, 11];
     // add 5 more random numbers from 3 to 11
     const additionalNumbers = Array.from({ length: 5 }, () => allowedNumbers[Math.floor(Math.random() * allowedNumbers.length)]);
@@ -204,4 +204,31 @@ function isValid68Placement(tiles, chitValues, adjacencyList) {
         }
     }
     return true;
+}
+
+function getResourceCountsFromInputs() {
+    return {
+        sheep: parseInt(document.getElementById('num_sheep').value, 10),
+        wood: parseInt(document.getElementById('num_wood').value, 10),
+        brick: parseInt(document.getElementById('num_brick').value, 10),
+        wheat: parseInt(document.getElementById('num_wheat').value, 10),
+        ore: parseInt(document.getElementById('num_ore').value, 10),
+        desert: parseInt(document.getElementById('num_desert').value, 10)
+    };
+}
+
+function buildResourcesArray() {
+    const counts = getResourceCountsFromInputs();
+    let arr = [];
+    for (let i = 0; i < counts.sheep; i++) arr.push("sheep");
+    for (let i = 0; i < counts.wood; i++) arr.push("wood");
+    for (let i = 0; i < counts.brick; i++) arr.push("brick");
+    for (let i = 0; i < counts.wheat; i++) arr.push("wheat");
+    for (let i = 0; i < counts.ore; i++) arr.push("ore");
+    for (let i = 0; i < counts.desert; i++) arr.push("desert");
+    if (arr.length !== 37) {
+        alert("The total number of tiles must be 37. You have " + arr.length + ".");
+        return null;
+    }
+    return arr;
 }
