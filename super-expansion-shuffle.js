@@ -288,7 +288,8 @@ function saveChitCounts() {
     }
     // Save to global (or window) for use in board generation
     window.customChitCounts = chitCounts;
-    closeNumberOptions();
+    var modal = bootstrap.Modal.getInstance(document.getElementById('numbersModal'));
+    if (modal) modal.hide();
     if (typeof generateBoard === 'function') generateBoard();
 }
 
