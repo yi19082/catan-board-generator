@@ -144,31 +144,36 @@
                 <input id="adjacent_6_8_input" onchange="toggleSetting('6_8')" type="checkbox"><br>
             </div>
             <div class="menu-row">
-                <div class="resource-row">
-                    <img src="pics/wood.png" alt="Wood" class="resource-icon" />
-                    <input id="num_wood" type="number" min="0" max="20" value="6">
+                <div class="resource-flex-2col">
+                    <div class="resource-col">
+                        <div class="resource-row">
+                            <img src="pics/wood.png" alt="Wood" class="resource-icon" />
+                            <input id="num_wood" type="number" min="0" max="20" value="7">
+                        </div>
+                        <div class="resource-row">
+                            <img src="pics/brick.png" alt="Brick" class="resource-icon" />
+                            <input id="num_brick" type="number" min="0" max="20" value="7">
+                        </div>
+                        <div class="resource-row">
+                            <img src="pics/sheep.png" alt="Sheep" class="resource-icon" />
+                            <input id="num_sheep" type="number" min="0" max="20" value="7">
+                        </div>
+                    </div>
+                    <div class="resource-col">
+                        <div class="resource-row">
+                            <img src="pics/wheat.png" alt="Wheat" class="resource-icon" />
+                            <input id="num_wheat" type="number" min="0" max="20" value="7">
+                        </div>
+                        <div class="resource-row">
+                            <img src="pics/ore.png" alt="Ore" class="resource-icon" />
+                            <input id="num_ore" type="number" min="0" max="20" value="7">
+                        </div>
+                        <div class="resource-row">
+                            <img src="pics/desert.png" alt="Desert" class="resource-icon" />
+                            <input id="num_desert" type="number" min="0" max="5" value="2">
+                        </div>
+                    </div>
                 </div>
-                <div class="resource-row">
-                    <img src="pics/brick.png" alt="Brick" class="resource-icon" />
-                    <input id="num_brick" type="number" min="0" max="20" value="6">
-                </div>
-                <div class="resource-row">
-                    <img src="pics/sheep.png" alt="Sheep" class="resource-icon" />
-                    <input id="num_sheep" type="number" min="0" max="20" value="11">
-                </div>
-                <div class="resource-row">
-                    <img src="pics/wheat.png" alt="Wheat" class="resource-icon" />
-                    <input id="num_wheat" type="number" min="0" max="20" value="6">
-                </div>
-                <div class="resource-row">
-                    <img src="pics/ore.png" alt="Ore" class="resource-icon" />
-                    <input id="num_ore" type="number" min="0" max="20" value="6">
-                </div>
-                <div class="resource-row">
-                    <img src="pics/desert.png" alt="Desert" class="resource-icon" />
-                    <input id="num_desert" type="number" min="0" max="5" value="2">
-                </div>
-            </div>
         
         <button class="popup-close" onclick="toggleOptions()" aria-label="Close">Save and Shuffle</button>
     </div>
