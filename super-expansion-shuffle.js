@@ -83,10 +83,22 @@ function getDots(num) {
 
 window.generateBoard = function() {
     let shuffledResources = buildResourcesArray();
-    const allowedNumbers = [3, 4, 5, 9, 10, 11];
-    // add 5 more random numbers from 3 to 11
-    const additionalNumbers = Array.from({ length: 5 }, () => allowedNumbers[Math.floor(Math.random() * allowedNumbers.length)]);
-    let allNumbers = numbers.concat(additionalNumbers);
+    if (!shuffledResources) return;
+
+    // Use user-selected chits if available
+    let allNumbers;
+    if (window.customChitCounts) {
+        allNumbers = [];
+        for (let n of [2,3,4,5,6,8,9,10,11,12]) {
+            for (let i = 0; i < window.customChitCounts[n]; ++i) allNumbers.push(n);
+        }
+    } else {
+        // fallback to default logic
+        const allowedNumbers = [3, 4, 5, 9, 10, 11];
+        // add 5 more random numbers from 3 to 11
+        const additionalNumbers = Array.from({ length: 5 }, () => allowedNumbers[Math.floor(Math.random() * allowedNumbers.length)]);
+        allNumbers = numbers.concat(additionalNumbers);
+    }
 
     shuffleArray(shuffledResources);
 
@@ -239,3 +251,59 @@ function closeOptions() {
     if (menu) menu.classList.add('hidden');
     if (overlay) overlay.classList.add('hidden');
 }
+
+function toggleNumberOptions() {
+    var menu = document.getElementById('numberMenu');
+    var overlay = document.getElementById('overlay');
+    if (menu) menu.classList.toggle('hidden');
+    if (overlay) overlay.classList.toggle('hidden');
+}
+
+function closeNumberOptions() {
+    var menu = document.getElementById('numberMenu');
+    var overlay = document.getElementById('overlay');
+    if (menu) menu.classList.add('hidden');
+    if (overlay) overlay.classList.add('hidden');
+}
+
+function saveChitCounts() {
+    // Collect chit counts from form
+    var chitCounts = {};
+    var total = 0;
+    for (var n of [2,3,4,5,6,8,9,10,11,12]) {
+        var val = parseInt(document.getElementById('num_' + n).value, 10) || 0;
+        chitCounts[n] = val;
+        total += val;
+    }
+    // Get number of non-desert resources (not just tiles)
+    var num_wood = parseInt(document.getElementById('num_wood').value, 10) || 0;
+    var num_brick = parseInt(document.getElementById('num_brick').value, 10) || 0;
+    var num_sheep = parseInt(document.getElementById('num_sheep').value, 10) || 0;
+    var num_wheat = parseInt(document.getElementById('num_wheat').value, 10) || 0;
+    var num_ore = parseInt(document.getElementById('num_ore').value, 10) || 0;
+    var numTiles = num_wood + num_brick + num_sheep + num_wheat + num_ore;
+    if (total !== numTiles) {
+        alert('Total chit count (' + total + ') must equal number of non-desert resources (' + numTiles + ').');
+        return;
+    }
+    // Save to global (or window) for use in board generation
+    window.customChitCounts = chitCounts;
+    closeNumberOptions();
+    if (typeof generateBoard === 'function') generateBoard();
+}
+
+// Patch generateBoard to use custom chit counts if set
+var originalBuildChitsArray = window.buildChitsArray;
+window.buildChitsArray = function() {
+    if (window.customChitCounts) {
+        var arr = [];
+        for (var n of [2,3,4,5,6,8,9,10,11,12]) {
+            for (var i = 0; i < window.customChitCounts[n]; ++i) arr.push(n);
+        }
+        return arr;
+    }
+    if (typeof originalBuildChitsArray === 'function') {
+        return originalBuildChitsArray();
+    }
+    return [];
+};
