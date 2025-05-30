@@ -378,6 +378,11 @@ input[type="checkbox"] {
     width: 32px;
     height: 32px;
     margin-right: 10px;
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: rgb(71, 70, 70);
+    transform: rotate(90deg);
+    /* Remove position:absolute and translate for flex alignment */
 }
 .menu-row input[type="number"] {
     width: 48px;
