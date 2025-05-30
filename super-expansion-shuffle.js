@@ -307,3 +307,26 @@ window.buildChitsArray = function() {
     }
     return [];
 };
+
+function saveResourceCounts() {
+    const counts = getResourceCountsFromInputs();
+    let total = 0;
+    for (let key of Object.keys(counts)) {
+        let val = parseInt(counts[key], 10) || 0;
+        if (val < 0) {
+            alert('Resource counts cannot be negative.');
+            return;
+        }
+        total += val;
+    }
+    if (total !== 37) {
+        alert('The total number of tiles must be 37. You have ' + total + '.');
+        return;
+    }
+    // Optionally, save to window/global if needed for board generation
+    window.customResourceCounts = counts;
+    // Close modal using Bootstrap API
+    var modal = bootstrap.Modal.getInstance(document.getElementById('resourceModal'));
+    if (modal) modal.hide();
+    if (typeof generateBoard === 'function') generateBoard();
+}
