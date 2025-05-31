@@ -23,7 +23,7 @@
 
 <body>
     <!-- Hidden input for board mode selection (required for JS logic) -->
-    <input id="selected-map" type="hidden" value="expanded" />
+    <input id="selected-map" type="hidden" value="super_expanded" />
     <header class="newTitle" id="title">
         <h1><span class="theBetterTitle">The Better</span><br>
             <span class="catanTitle">Catan Board</span><br>
@@ -35,12 +35,12 @@
                     <a class="map-links text-decoration-none flex-fill" href="./index.html" style="min-width:120px;max-width:180px;">
                         <button class="btn btn-outline-primary w-100">Classic</button>
                     </a>
-                    <span class="flex-fill" style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-primary w-100" disabled>Expansion</button>
-                    </span>
-                    <a class="map-links text-decoration-none flex-fill" href="./super_expansion_2.html" style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-outline-primary w-100">Super Expansion</button>
+                    <a class="map-links text-decoration-none flex-fill" href="./expansion.html" style="min-width:120px;max-width:180px;">
+                        <button class="btn btn-outline-primary w-100">Expansion</button>
                     </a>
+                    <span class="flex-fill" style="min-width:120px;max-width:180px;">
+                        <button class="btn btn-primary w-100" disabled >Super Expansion</button>
+                    </span>
                 </div>
             </section>
             <br>
@@ -110,7 +110,7 @@ window.addEventListener('DOMContentLoaded', function () {
     if (typeof generateBoard === "function") {
         // If your board generation logic depends on a hidden input or class, set it here
         var selectedMap = document.getElementById('selected-map');
-        if (selectedMap) selectedMap.value = 'expanded';
+        if (selectedMap) selectedMap.value = 'super_expanded';
         generateBoard();
     }
 });

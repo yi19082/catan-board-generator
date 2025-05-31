@@ -6,7 +6,7 @@
         right: 0;
         top: 0;
         position: absolute;
-        transform: translate(0%, -7.5%);
+        transform: translate(0%, 0%);
         /* background: rgb(145, 122, 81); */
     }
 
@@ -38,7 +38,7 @@
         width: 100vw;
         height: 100vw;
         left: 50%;
-        transform: translate(-50%, 0%);
+        transform: translate(-42%, 0%);
 
         /* background: rgba(255, 166, 0, 0.582); */
         position: relative;
