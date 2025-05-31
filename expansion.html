@@ -36,70 +36,89 @@
                         <button class="btn btn-outline-primary w-100">Classic</button>
                     </a>
                     <span class="flex-fill" style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-primary w-100" disabled id="expansion-selected">Expansion</button>
+                        <button class="btn btn-primary w-100" disabled>Expansion</button>
                     </span>
-                    <a class="map-links text-decoration-none flex-fill" href="./super_expansion.html" style="min-width:120px;max-width:180px;">
+                    <a class="map-links text-decoration-none flex-fill" href="./super_expansion_2.html" style="min-width:120px;max-width:180px;">
                         <button class="btn btn-outline-primary w-100">Super Expansion</button>
                     </a>
                 </div>
             </section>
             <br>
             <section id="inline-options" class="my-3">
-      <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <button id="btnOps" type="button" class="commonOpsbutton btn btn-secondary px-4 py-2 fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#resourceModal">Options</button>
-        <button id="shuffleButton" type="button" class="commonShuffle btn btn-primary px-4 py-2 fw-semibold shadow-sm" onclick="generateBoard()">Shuffle</button>
-      </div>
-    </section>
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <button id="btnOps" type="button" class="commonOpsbutton btn btn-secondary px-4 py-2 fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#combinedModal">Settings</button>
+    <button id="shuffleButton" type="button" class="commonShuffle btn btn-primary px-4 py-2 fw-semibold shadow-sm" onclick="generateBoard()">Shuffle</button>
+  </div>
+</section>
         </section>
     </header>
 
     <section class="commonNormalBoard board" id="board"></section>
 
-    <!-- Bootstrap Resource Modal -->
-    <div class="modal fade" id="resourceModal" tabindex="-1" aria-labelledby="resourceModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title fs-5" id="resourceModalLabel">Generation Custom Rules</h2>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row g-2">
-                <div class="col-12">
-                  <div class="menu-row mb-2">
-                    <label class="mylabel">Image Style</label>
-                    <select id="image_option_input" onchange="toggleDisplaySetting('switchimages')" class="form-select w-auto d-inline-block ms-2">
-                        <option value="colorBlocked">Colorblock</option>
-                        <option value="newAssets" selected>Classic</option>
-                    </select>
-                  </div>
-                  <div class="menu-row mb-2">
-                    <label class="mylabel">6 &amp; 8 Can Touch</label>
-                    <input id="adjacent_6_8_input" onchange="toggleSetting('6_8')" type="checkbox" class="form-check-input ms-2"><br>
-                  </div>
-                  <div class="menu-row mb-2">
-                    <label class="mylabel">2 &amp; 12 Can Touch</label>
-                    <input id="adjacent_2_12_input" onchange="toggleSetting('2_12')" type="checkbox" class="form-check-input ms-2"><br>
-                  </div>
-                  <div class="menu-row mb-2">
-                    <label class="mylabel">Same Numbers Can Touch</label>
-                    <input id="adjacent_same_numbers_input" onchange="toggleSetting('same_number')" type="checkbox" class="form-check-input ms-2"><br>
-                  </div>
-                  <div id="sameResourceSetting" class="menu-row mb-2">
-                    <label class="mylabel">Same Resource Can Touch</label>
-                    <input id="adjacent_same_resource_input" onchange="toggleSetting('same_resource')" type="checkbox" class="form-check-input ms-2"><br>
-                  </div>
-                </div>
+    <!-- Combined Bootstrap Resource & Numbers Modal -->
+<div class="modal fade" id="combinedModal" tabindex="-1" aria-labelledby="combinedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="combinedModalLabel">Generation Custom Rules</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row g-2">
+            <div class="col-12 col-md-6">
+              <h5>Resource Counts</h5>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/wood.png" alt="Wood" class="resource-icon me-2" />
+                <input id="num_wood" type="number" min="0" max="20" value="6" class="form-control w-auto">
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/brick.png" alt="Brick" class="resource-icon me-2" />
+                <input id="num_brick" type="number" min="0" max="20" value="6" class="form-control w-auto">
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/sheep.png" alt="Sheep" class="resource-icon me-2" />
+                <input id="num_sheep" type="number" min="0" max="20" value="6" class="form-control w-auto">
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/wheat.png" alt="Wheat" class="resource-icon me-2" />
+                <input id="num_wheat" type="number" min="0" max="20" value="5" class="form-control w-auto">
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/ore.png" alt="Ore" class="resource-icon me-2" />
+                <input id="num_ore" type="number" min="0" max="20" value="5" class="form-control w-auto">
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <img src="pics/desert.png" alt="Desert" class="resource-icon me-2" />
+                <input id="num_desert" type="number" min="0" max="5" value="2" class="form-control w-auto">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <h5>Chit (Number) Counts</h5>
+              <div class="mb-2"><label for="num_2">2</label> <input id="num_2" type="number" min="0" max="10" value="2" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_3">3</label> <input id="num_3" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_4">4</label> <input id="num_4" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_5">5</label> <input id="num_5" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_6">6</label> <input id="num_6" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_8">8</label> <input id="num_8" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_9">9</label> <input id="num_9" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_10">10</label> <input id="num_10" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_11">11</label> <input id="num_11" type="number" min="0" max="10" value="3" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="mb-2"><label for="num_12">12</label> <input id="num_12" type="number" min="0" max="10" value="2" class="form-control w-auto d-inline-block ms-2"></div>
+              <div class="form-check mt-3">
+                <input id="adjacent_6_8_input" onchange="toggleSetting('6_8')" type="checkbox" class="form-check-input">
+                <label class="form-check-label ms-2">6 &amp; 8 Can Touch</label>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal" onclick="toggleOptions()">Close Options</button>
-          </div>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary w-100" onclick="saveCustomSettings()">Save and Shuffle</button>
+      </div>
     </div>
+  </div>
+</div>
 
     <footer></footer>
 

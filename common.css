@@ -157,6 +157,17 @@ h2 {
     background-repeat: no-repeat
 }
 
+.hex-super_expanded {
+    height: 16%;
+    width: calc(16% * 0.866);
+    background: rgb(71, 70, 70);
+    position: absolute;
+    transform-origin: 50% 50%;
+    transform: translate(-50%, -50%) ;
+    background-size: auto 100%;
+    background-repeat: no-repeat
+}
+
 .circle-base {
     position: absolute;
     left: 50%;
