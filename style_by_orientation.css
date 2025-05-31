@@ -38,10 +38,15 @@
         width: 100vw;
         height: 100vw;
         left: 50%;
-        transform: translate(-42%, 0%);
+        transform: translate(-50%, 0%);
 
         /* background: rgba(255, 166, 0, 0.582); */
         position: relative;
+    }
+
+    /* Only for super expansion board */
+    body:has(#selected-map[value="super_expanded"]) #board {
+        transform: translate(-42%, 0%);
     }
 
     #classic-options {
