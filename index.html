@@ -26,23 +26,19 @@
             <span class="generatorTitle">Generator</span>
         </h1>
         <section id="top_content">
-            <section id="map-select">
-                <div class="map-select-menu-row-center d-flex justify-content-center gap-2 flex-wrap">
-                    <button type="button" class="map-mode-button btn btn-primary flex-fill" data-map-mode="normal"
-                        aria-pressed="true" onclick="switchBoardMode('normal')">Classic</button>
-                    <button type="button" class="map-mode-button btn btn-outline-primary flex-fill" data-map-mode="expanded"
-                        aria-pressed="false" onclick="switchBoardMode('expanded')">Expansion</button>
-                    <button type="button" class="map-mode-button btn btn-outline-primary flex-fill" data-map-mode="super_expanded"
-                        aria-pressed="false" onclick="switchBoardMode('super_expanded')">Super Expansion</button>
-                </div>
-            </section>
-            <br>
-            <!-- Update inline-options buttons to use Bootstrap modal -->
-            <section id="inline-options">
-                <button id="btnOps" type="button" class="commonOpsbutton btn btn-secondary" data-bs-toggle="modal"
+            <section class="top-controls" aria-label="Board controls">
+                <label class="board-type-control" for="board-type-select">
+                    <span>Board Type</span>
+                    <select id="board-type-select" class="form-select" onchange="switchBoardMode(this.value)">
+                        <option value="normal" selected>Classic</option>
+                        <option value="expanded">Expansion</option>
+                        <option value="super_expanded">Super Expansion</option>
+                    </select>
+                </label>
+                <button id="btnOps" type="button" class="commonOpsbutton btn btn-secondary top-control-button" data-bs-toggle="modal"
                     data-bs-target="#combinedModal">Settings</button>
-                <button id="shuffleButton" type="button" class="commonShuffle btn btn-primary"
-                    onclick="generateBoard()">Shuffle</button>
+                <button id="shuffleButton" type="button" class="commonShuffle btn btn-primary top-control-button"
+                    onclick="generateBoard(event)">Shuffle</button>
             </section>
         </section>
     </header>

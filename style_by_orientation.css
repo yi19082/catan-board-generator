@@ -34,6 +34,10 @@
 
 @media all and (orientation: landscape) and (max-height: 700px),
        all and (orientation: landscape) and (max-width: 1200px) {
+    :root {
+        --compact-header-space: 66px;
+    }
+
     #title {
         width: 100%;
         min-height: 0;
@@ -41,8 +45,8 @@
     }
 
     #board {
-        width: min(100vw, calc(100vh - 150px));
-        height: min(100vw, calc(100vh - 150px));
+        width: min(98vw, calc(100vh - var(--compact-header-space)));
+        height: min(98vw, calc(100vh - var(--compact-header-space)));
         position: relative;
         right: auto;
         top: auto;
@@ -51,8 +55,8 @@
     }
 
     .border-normal {
-        width: min(99vw, calc((100vh - 150px) * 0.99));
-        height: calc(min(99vw, calc((100vh - 150px) * 0.99)) * 1.732050808 / 2);
+        width: min(97vw, calc((100vh - var(--compact-header-space)) * 0.99));
+        height: calc(min(97vw, calc((100vh - var(--compact-header-space)) * 0.99)) * 1.732050808 / 2);
     }
 }
 
@@ -66,11 +70,6 @@
 
         /* background: rgba(255, 166, 0, 0.582); */
         position: relative;
-    }
-
-    /* Only for super expansion board */
-    body:has(#selected-map[value="super_expanded"]) #board {
-        transform: translate(-42%, 0%);
     }
 
     #classic-options {
