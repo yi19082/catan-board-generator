@@ -32,6 +32,30 @@
     }
 }
 
+@media all and (orientation: landscape) and (max-height: 700px),
+       all and (orientation: landscape) and (max-width: 1200px) {
+    #title {
+        width: 100%;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    #board {
+        width: min(100vw, calc(100vh - 150px));
+        height: min(100vw, calc(100vh - 150px));
+        position: relative;
+        right: auto;
+        top: auto;
+        margin: 0 auto;
+        transform: none;
+    }
+
+    .border-normal {
+        width: min(99vw, calc((100vh - 150px) * 0.99));
+        height: calc(min(99vw, calc((100vh - 150px) * 0.99)) * 1.732050808 / 2);
+    }
+}
+
 @media all and (orientation: portrait) {
 
     #board {

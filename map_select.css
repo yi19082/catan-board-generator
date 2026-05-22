@@ -6,7 +6,8 @@
 }
 
 .map-select-menu-row-center {
-    height: 60px;
+    min-height: 60px;
+    height: auto;
     display:inline-block;
     width:100%;
     margin-bottom: 10px;

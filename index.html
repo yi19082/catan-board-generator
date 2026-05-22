@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    <input id="selected-map" type="hidden" value="normal">
 
     <header class="newTitle" id="title">
         <h1><span class="theBetterTitle">The Better</span><br>
@@ -27,17 +28,12 @@
         <section id="top_content">
             <section id="map-select">
                 <div class="map-select-menu-row-center d-flex justify-content-center gap-2 flex-wrap">
-                    <span class="flex-fill" style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-primary w-100" disabled>Classic</button>
-                    </span>
-                    <a class="map-links text-decoration-none flex-fill" href="./expansion.html"
-                        style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-outline-primary w-100">Expansion</button>
-                    </a>
-                    <a class="map-links text-decoration-none flex-fill" href="./super_expansion_2.html"
-                        style="min-width:120px;max-width:180px;">
-                        <button class="btn btn-outline-primary w-100">Super Expansion</button>
-                    </a>
+                    <button type="button" class="map-mode-button btn btn-primary flex-fill" data-map-mode="normal"
+                        aria-pressed="true" onclick="switchBoardMode('normal')">Classic</button>
+                    <button type="button" class="map-mode-button btn btn-outline-primary flex-fill" data-map-mode="expanded"
+                        aria-pressed="false" onclick="switchBoardMode('expanded')">Expansion</button>
+                    <button type="button" class="map-mode-button btn btn-outline-primary flex-fill" data-map-mode="super_expanded"
+                        aria-pressed="false" onclick="switchBoardMode('super_expanded')">Super Expansion</button>
                 </div>
             </section>
             <br>
@@ -51,45 +47,7 @@
         </section>
     </header>
 
-    <section class="commonNormalBoard board" id="board"><div class="normalBorderCommon border-normal"></div><div class="hex-normal hex-base wheat" style="left:34.99655%;top:24.45%" id="tile-0" )="" alt="wheat">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-0"><div class="tile-chit-normal chit-number-base">9</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
-              </div><div class="hex-normal hex-base wood" style="left:50%;top:24.45%" id="tile-1" )="" alt="wood">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-1"><div class="tile-chit-normal chit-number-base">5</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
-              </div><div class="hex-normal hex-base ore" style="left:65.00345%;top:24.45%" id="tile-2" )="" alt="ore">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-2"><div class="tile-chit-normal chit-number-base">4</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
-              </div><div class="hex-normal hex-base ore" style="left:27.494825000000002%;top:37.225%" id="tile-3" )="" alt="ore">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-3"><div class="tile-chit-normal chit-number-base">10</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
-              </div><div class="hex-normal hex-base sheep" style="left:42.498275%;top:37.225%" id="tile-4" )="" alt="sheep">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-4"><div class="tile-chit-normal chit-number-base">3</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
-              </div><div class="hex-normal hex-base sheep high-prob" style="left:57.501725%;top:37.225%" id="tile-5" )="" alt="sheep">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-5"><div class="tile-chit-normal chit-number-base">8</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
-              </div><div class="hex-normal hex-base desert" style="left:72.505175%;top:37.225%" id="tile-6" )="" alt="desert">
-                  <div class="circle-normal circle-base font-size-wrap desert-chit" id="circle-6"><div class="tile-chit-normal chit-number-base"></div></div>
-              </div><div class="hex-normal hex-base ore high-prob" style="left:19.993100000000002%;top:50%" id="tile-7" )="" alt="ore">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-7"><div class="tile-chit-normal chit-number-base">6</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
-              </div><div class="hex-normal hex-base wood" style="left:34.99655%;top:50%" id="tile-8" )="" alt="wood">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-8"><div class="tile-chit-normal chit-number-base">9</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
-              </div><div class="hex-normal hex-base brick" style="left:50%;top:50%" id="tile-9" )="" alt="brick">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-9"><div class="tile-chit-normal chit-number-base">4</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
-              </div><div class="hex-normal hex-base wheat" style="left:65.00345%;top:50%" id="tile-10" )="" alt="wheat">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-10"><div class="tile-chit-normal chit-number-base">11</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
-              </div><div class="hex-normal hex-base wood high-prob" style="left:80.0069%;top:50%" id="tile-11" )="" alt="wood">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-11"><div class="tile-chit-normal chit-number-base">6</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
-              </div><div class="hex-normal hex-base wood" style="left:27.494825000000002%;top:62.775%" id="tile-12" )="" alt="wood">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-12"><div class="tile-chit-normal chit-number-base">10</div><div class="prob-dots-base small-font-size-wrap">...<div></div></div></div>
-              </div><div class="hex-normal hex-base brick" style="left:42.498275%;top:62.775%" id="tile-13" )="" alt="brick">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-13"><div class="tile-chit-normal chit-number-base">11</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
-              </div><div class="hex-normal hex-base wheat" style="left:57.501725%;top:62.775%" id="tile-14" )="" alt="wheat">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-14"><div class="tile-chit-normal chit-number-base">3</div><div class="prob-dots-base small-font-size-wrap">..<div></div></div></div>
-              </div><div class="hex-normal hex-base brick" style="left:72.505175%;top:62.775%" id="tile-15" )="" alt="brick">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-15"><div class="tile-chit-normal chit-number-base">12</div><div class="prob-dots-base small-font-size-wrap">.<div></div></div></div>
-              </div><div class="hex-normal hex-base wheat" style="left:34.99655%;top:75.55%" id="tile-16" )="" alt="wheat">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-16"><div class="tile-chit-normal chit-number-base">5</div><div class="prob-dots-base small-font-size-wrap">....<div></div></div></div>
-              </div><div class="hex-normal hex-base sheep high-prob" style="left:50%;top:75.55%" id="tile-17" )="" alt="sheep">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-17"><div class="tile-chit-normal chit-number-base">8</div><div class="prob-dots-base small-font-size-wrap">.....<div></div></div></div>
-              </div><div class="hex-normal hex-base sheep" style="left:65.00345%;top:75.55%" id="tile-18" )="" alt="sheep">
-                  <div class="circle-normal circle-base font-size-wrap" id="circle-18"><div class="tile-chit-normal chit-number-base">2</div><div class="prob-dots-base small-font-size-wrap">.<div></div></div></div>
-              </div></section>
+    <section class="commonNormalBoard board" id="board"></section>
 
     <!-- Combined Bootstrap Resource & Numbers Modal -->
     <div class="modal fade" id="combinedModal" tabindex="-1" aria-labelledby="combinedModalLabel" aria-hidden="true">
