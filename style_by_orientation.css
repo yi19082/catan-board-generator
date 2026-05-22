@@ -32,7 +32,8 @@
     }
 }
 
-@media all and (orientation: landscape) and (max-height: 700px) {
+@media all and (orientation: landscape) and (max-height: 700px),
+       all and (orientation: landscape) and (max-width: 1200px) {
     #title {
         width: 100%;
         min-height: 0;
@@ -40,8 +41,8 @@
     }
 
     #board {
-        width: min(100vw, calc(100vh - 112px));
-        height: min(100vw, calc(100vh - 112px));
+        width: min(100vw, calc(100vh - 150px));
+        height: min(100vw, calc(100vh - 150px));
         position: relative;
         right: auto;
         top: auto;
@@ -50,8 +51,8 @@
     }
 
     .border-normal {
-        width: min(99vw, calc((100vh - 112px) * 0.99));
-        height: calc(min(99vw, calc((100vh - 112px) * 0.99)) * 1.732050808 / 2);
+        width: min(99vw, calc((100vh - 150px) * 0.99));
+        height: calc(min(99vw, calc((100vh - 150px) * 0.99)) * 1.732050808 / 2);
     }
 }
 
