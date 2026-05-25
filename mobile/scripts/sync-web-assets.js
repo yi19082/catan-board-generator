@@ -359,7 +359,7 @@ body.mobile-modal-open {
 );
 
 fs.writeFileSync(
-  path.join(targetRoot, "mobile-bridge.webjs"),
+  path.join(targetRoot, "mobile-bridge-script.webjs"),
   `(function () {
     function showModal(modal) {
         if (!modal) {

@@ -3,6 +3,7 @@
     "name": "Catan Board Generator",
     "slug": "catan-board-generator",
     "version": "1.0.0",
+    "newArchEnabled": false,
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

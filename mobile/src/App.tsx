@@ -13,7 +13,7 @@ const WEB_ASSETS = [
   { module: require("../assets/web/style_by_orientation.css"), path: "style_by_orientation.css" },
   { module: require("../assets/web/index.min.webjs"), path: "index.min.js" },
   { module: require("../assets/web/mobile-bridge.css"), path: "mobile-bridge.css" },
-  { module: require("../assets/web/mobile-bridge.webjs"), path: "mobile-bridge.js" },
+  { module: require("../assets/web/mobile-bridge-script.webjs"), path: "mobile-bridge.js" },
   { module: require("../assets/web/pics/wood.png"), path: "pics/wood.png" },
   { module: require("../assets/web/pics/wheat.png"), path: "pics/wheat.png" },
   { module: require("../assets/web/pics/sheep.png"), path: "pics/sheep.png" },
