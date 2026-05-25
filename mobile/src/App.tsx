@@ -2,7 +2,8 @@ import { Asset } from "expo-asset";
 import * as FileSystem from "expo-file-system/legacy";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
 const WEB_ASSETS = [
@@ -32,10 +33,12 @@ async function copyAsset(asset: Asset, targetPath: string) {
     throw new Error(`Asset did not resolve locally: ${asset.name}`);
   }
 
-  const info = await FileSystem.getInfoAsync(targetPath);
-  if (!info.exists) {
-    await FileSystem.copyAsync({ from: asset.localUri, to: targetPath });
+  const existing = await FileSystem.getInfoAsync(targetPath);
+  if (existing.exists) {
+    await FileSystem.deleteAsync(targetPath, { idempotent: true });
   }
+
+  await FileSystem.copyAsync({ from: asset.localUri, to: targetPath });
 }
 
 async function prepareWebApp() {
@@ -61,7 +64,16 @@ async function prepareWebApp() {
 }
 
 export default function App() {
+  return (
+    <SafeAreaProvider>
+      <BoardGenerator />
+    </SafeAreaProvider>
+  );
+}
+
+function BoardGenerator() {
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     prepareWebApp()
@@ -73,8 +85,8 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="dark" />
+    <SafeAreaView edges={["top", "right", "bottom", "left"]} style={styles.container}>
+      <StatusBar backgroundColor="#fff8e7" style="dark" translucent={false} />
       {loadState.status === "ready" ? (
         <WebView
           originWhitelist={["*"]}
@@ -84,6 +96,13 @@ export default function App() {
           javaScriptEnabled
           domStorageEnabled
           setSupportMultipleWindows={false}
+          injectedJavaScriptBeforeContentLoaded={`
+            document.documentElement.style.setProperty('--native-safe-top', '${insets.top}px');
+            document.documentElement.style.setProperty('--native-safe-right', '${insets.right}px');
+            document.documentElement.style.setProperty('--native-safe-bottom', '${insets.bottom}px');
+            document.documentElement.style.setProperty('--native-safe-left', '${insets.left}px');
+            true;
+          `}
           style={styles.webview}
         />
       ) : (
