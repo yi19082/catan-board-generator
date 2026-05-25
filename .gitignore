@@ -1,0 +1,7 @@
+mobile/node_modules/
+mobile/android/
+mobile/ios/
+mobile/.expo/
+mobile/.expo-start*.log
+mobile/.expo-start*.err
+mobile/dist/

@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Catan Board Generator",
+    "slug": "catan-board-generator",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#fff8e7"
+    },
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yi19082.catanboardgenerator"
+    },
+    "android": {
+      "package": "com.yi19082.catanboardgenerator",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#fff8e7"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d0d2dfe2-9678-409d-8d46-47228841e325"
+      }
+    },
+    "owner": "yi19082"
+  }
+}

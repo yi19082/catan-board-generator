@@ -1,0 +1,586 @@
+(function () {
+    "use strict";
+
+    const COUNTED_RESOURCES = ["wood", "brick", "sheep", "wheat", "ore"];
+    const CHIT_VALUES = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
+    const HIGH_PROBABILITY_CHITS = new Set([6, 8]);
+    const MAX_SHUFFLE_ATTEMPTS = 5000;
+
+    const probabilityDots = {
+        2: ".",
+        3: "..",
+        4: "...",
+        5: "....",
+        6: ".....",
+        8: ".....",
+        9: "....",
+        10: "...",
+        11: "..",
+        12: "."
+    };
+
+    const boardConfigs = {
+        normal: {
+            tileCount: 19,
+            tileSize: 17.5,
+            tilesPerRow: [3, 4, 5, 4, 3],
+            className: "normal",
+            borderClassName: "normalBorderCommon border-normal",
+            hexPointUp: false,
+            cellStep(size) {
+                return 0.99 * 0.866 * size;
+            },
+            rowStep(size) {
+                return 0.73 * size;
+            },
+            resources: [
+                "ore", "ore", "ore",
+                "brick", "brick", "brick",
+                "sheep", "sheep", "sheep", "sheep",
+                "wood", "wood", "wood", "wood",
+                "wheat", "wheat", "wheat", "wheat"
+            ],
+            chits: [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12],
+            adjacency: {
+                0: [1, 3, 4],
+                1: [0, 2, 4, 5],
+                2: [1, 5, 6],
+                3: [0, 4, 7, 8],
+                4: [0, 1, 3, 5, 8, 9],
+                5: [1, 2, 4, 6, 9, 10],
+                6: [2, 5, 10, 11],
+                7: [3, 8, 12],
+                8: [3, 4, 7, 9, 12, 13],
+                9: [4, 5, 8, 10, 13, 14],
+                10: [5, 6, 9, 11, 14, 15],
+                11: [6, 10, 15],
+                12: [7, 8, 13, 16],
+                13: [8, 9, 12, 14, 16, 17],
+                14: [9, 10, 13, 15, 17, 18],
+                15: [10, 11, 14, 18],
+                16: [12, 13, 17],
+                17: [13, 14, 16, 18],
+                18: [14, 15, 17]
+            }
+        },
+        expanded: {
+            tileCount: 30,
+            tileSize: 16,
+            tilesPerRow: [1, 2, 3, 4, 3, 4, 3, 4, 3, 2, 1],
+            className: "expanded",
+            borderClassName: "expandedBorderCommon border-expanded",
+            hexPointUp: false,
+            cellStep(size) {
+                return 1.51 * size * 0.99;
+            },
+            rowStep(size) {
+                return (0.866 * size) / 1.99;
+            },
+            resources: [
+                "ore", "ore", "ore", "ore", "ore",
+                "brick", "brick", "brick", "brick", "brick",
+                "sheep", "sheep", "sheep", "sheep", "sheep", "sheep",
+                "wood", "wood", "wood", "wood", "wood", "wood",
+                "wheat", "wheat", "wheat", "wheat", "wheat", "wheat"
+            ],
+            chits: [2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 8, 8, 8, 9, 9, 9, 10, 10, 10, 11, 11, 11, 12, 12],
+            adjacency: {
+                0: [1, 2, 4],
+                1: [3, 4, 7],
+                2: [4, 5, 8],
+                3: [6, 7, 10],
+                4: [7, 8, 11],
+                5: [8, 9, 12],
+                6: [3, 10, 13],
+                7: [1, 3, 4, 10, 11, 14],
+                8: [2, 4, 5, 11, 12, 15],
+                9: [5, 12, 16],
+                10: [3, 6, 7, 13, 14, 17],
+                11: [4, 7, 8, 14, 15, 18],
+                12: [5, 8, 9, 15, 16, 19],
+                13: [6, 10, 17, 20],
+                14: [7, 10, 11, 17, 18, 21],
+                15: [8, 11, 12, 18, 19, 22],
+                16: [9, 12, 19, 23],
+                17: [10, 13, 14, 20, 21, 24],
+                18: [11, 14, 15, 21, 22, 25],
+                19: [12, 15, 16, 22, 23, 26],
+                20: [13, 17, 24],
+                21: [14, 17, 18, 24, 25, 27],
+                22: [15, 18, 19, 25, 26, 28],
+                23: [16, 19, 26],
+                24: [17, 20, 21, 27],
+                25: [18, 21, 22, 27, 28, 29],
+                26: [19, 22, 23, 28],
+                27: [21, 24, 25, 29],
+                28: [22, 25, 26, 29],
+                29: [25, 27, 28]
+            }
+        },
+        super_expanded: {
+            tileCount: 37,
+            tileSize: 16,
+            tilesPerRow: [4, 5, 6, 7, 6, 5, 4],
+            className: "super_expanded",
+            borderClassName: "superExpandedBorderCommon border-expanded",
+            hexPointUp: true,
+            cellStep(size) {
+                return 0.99 * 0.866 * size;
+            },
+            rowStep(size) {
+                return 0.73 * size;
+            },
+            resources: [
+                "sheep", "wheat", "wood", "brick", "ore",
+                "brick", "ore", "ore", "ore", "ore", "ore", "ore",
+                "brick", "brick", "brick", "brick", "brick",
+                "sheep", "sheep", "sheep", "sheep", "sheep", "sheep",
+                "wood", "wood", "wood", "wood", "wood", "wood",
+                "wheat", "wheat", "wheat", "wheat", "wheat", "wheat"
+            ],
+            chits: [2, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 12],
+            adjacency: {
+                0: [1, 2, 4],
+                1: [0, 3, 4, 7],
+                2: [0, 4, 5, 8],
+                3: [1, 6, 7, 10],
+                4: [0, 1, 2, 7, 8, 11],
+                5: [2, 8, 9, 12],
+                6: [3, 10, 13],
+                7: [1, 3, 4, 10, 11, 14],
+                8: [2, 4, 5, 11, 12, 15],
+                9: [5, 12, 16],
+                10: [3, 6, 7, 13, 14, 17],
+                11: [4, 7, 8, 14, 15, 18],
+                12: [5, 8, 9, 15, 16, 19],
+                13: [6, 10, 17, 20],
+                14: [7, 10, 11, 17, 18, 21],
+                15: [8, 11, 12, 18, 19, 22],
+                16: [9, 12, 19, 23],
+                17: [10, 13, 14, 20, 21, 24],
+                18: [11, 14, 15, 21, 22, 25],
+                19: [12, 15, 16, 22, 23, 26],
+                20: [13, 17, 24, 27],
+                21: [14, 17, 18, 24, 25, 28],
+                22: [15, 18, 19, 25, 26, 29],
+                23: [16, 19, 26, 30],
+                24: [17, 20, 21, 27, 28, 31],
+                25: [18, 21, 22, 28, 29, 32],
+                26: [19, 22, 23, 29, 30, 33],
+                27: [20, 24, 31],
+                28: [21, 24, 25, 31, 32, 34],
+                29: [22, 25, 26, 32, 33, 35],
+                30: [23, 26, 33],
+                31: [24, 27, 28, 34],
+                32: [25, 28, 29, 34, 35, 36],
+                33: [26, 29, 30, 35],
+                34: [28, 31, 32, 36],
+                35: [29, 32, 33, 36],
+                36: [32, 34, 35]
+            }
+        }
+    };
+
+    const state = {
+        mode: readMode(),
+        allowAdjacentHighProbability: true,
+        boardByMode: Object.fromEntries(
+            Object.entries(boardConfigs).map(([mode, config]) => [
+                mode,
+                {
+                    resources: config.resources.slice(),
+                    chits: config.chits.slice()
+                }
+            ])
+        )
+    };
+
+    function readMode() {
+        const selectedMap = document.getElementById("selected-map");
+        return selectedMap && boardConfigs[selectedMap.value] ? selectedMap.value : "normal";
+    }
+
+    function writeMode(mode) {
+        const selectedMap = document.getElementById("selected-map");
+        if (selectedMap) {
+            selectedMap.value = mode;
+            selectedMap.setAttribute("value", mode);
+        }
+    }
+
+    function currentConfig() {
+        return boardConfigs[state.mode] || boardConfigs.normal;
+    }
+
+    function randomize(items) {
+        const shuffled = items.slice();
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        return shuffled;
+    }
+
+    function getNumberInputValue(id) {
+        const element = document.getElementById(id);
+        return element ? parseInt(element.value, 10) || 0 : 0;
+    }
+
+    function setNumberInputValue(id, value) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.value = value;
+        }
+    }
+
+    function countItems(items, value) {
+        return items.filter((item) => item === value).length;
+    }
+
+    function repeatValue(value, count) {
+        return Array.from({ length: count }, () => value);
+    }
+
+    function getOffsets(config) {
+        const size = config.tileSize;
+        const centerRow = Math.floor(config.tilesPerRow.length / 2);
+        const cellStep = config.cellStep(size);
+        const rowStep = config.rowStep(size);
+        const offsets = [];
+
+        config.tilesPerRow.forEach((tileCount, rowIndex) => {
+            const rowLevel = rowIndex - centerRow;
+            const yCoordinate = 50 + rowLevel * rowStep;
+            const rowShift = (rowIndex % 2) * cellStep / 2;
+            const xEvenShift = config.hexPointUp ? (cellStep / 2) - rowShift : rowShift;
+            const xFirstCellShift = Math.floor(tileCount / 2) * cellStep;
+
+            for (let tileIndex = 0; tileIndex < tileCount; tileIndex += 1) {
+                const xCoordinate = 50 - xFirstCellShift + xEvenShift + tileIndex * cellStep;
+                offsets.push(`left:${xCoordinate}%;top:${yCoordinate}%`);
+            }
+        });
+
+        return offsets;
+    }
+
+    function buildTiles() {
+        const board = document.getElementById("board");
+        const config = currentConfig();
+
+        if (!board) {
+            return;
+        }
+
+        const tiles = getOffsets(config).map((offset, index) => (
+            `<div class="hex-${config.className} hex-base" style="${offset}" id="tile-${index}">
+                <div class="circle-${config.className} circle-base font-size-wrap" id="circle-${index}"></div>
+            </div>`
+        ));
+
+        board.innerHTML = [
+            `<div class="${config.borderClassName}"></div>`,
+            ...tiles
+        ].join("");
+    }
+
+    function getResourceCountsFromInputs() {
+        return {
+            wood: getNumberInputValue("num_wood"),
+            brick: getNumberInputValue("num_brick"),
+            sheep: getNumberInputValue("num_sheep"),
+            wheat: getNumberInputValue("num_wheat"),
+            ore: getNumberInputValue("num_ore"),
+            desert: getNumberInputValue("num_desert")
+        };
+    }
+
+    function buildResourcesFromCounts(counts) {
+        return COUNTED_RESOURCES.flatMap((resource) => repeatValue(resource, counts[resource] || 0));
+    }
+
+    function buildChitsFromInputs() {
+        return CHIT_VALUES.flatMap((chit) => repeatValue(chit, getNumberInputValue(`num_${chit}`)));
+    }
+
+    function getDesertCount(mode = state.mode) {
+        const config = boardConfigs[mode];
+        const boardState = state.boardByMode[mode];
+        return Math.max(config.tileCount - boardState.resources.length, 0);
+    }
+
+    function createTileBag() {
+        const config = currentConfig();
+        const boardState = state.boardByMode[state.mode];
+        const desertCount = getDesertCount();
+        const resources = randomize([
+            ...boardState.resources,
+            ...repeatValue("desert", desertCount)
+        ]);
+        const chits = randomize(boardState.chits);
+        let chitIndex = 0;
+
+        return resources.map((resource) => {
+            if (resource === "desert") {
+                return {
+                    resource,
+                    chit: "",
+                    probability: ""
+                };
+            }
+
+            const chit = chits[chitIndex];
+            chitIndex += 1;
+
+            return {
+                resource,
+                chit,
+                probability: probabilityDots[chit] || ""
+            };
+        }).slice(0, config.tileCount);
+    }
+
+    function hasAdjacentHighProbabilityChits(tiles) {
+        const adjacency = currentConfig().adjacency;
+
+        return tiles.some((tile, index) => {
+            if (!HIGH_PROBABILITY_CHITS.has(tile.chit)) {
+                return false;
+            }
+
+            return (adjacency[index] || []).some((neighborIndex) => {
+                const neighbor = tiles[neighborIndex];
+                return neighbor && HIGH_PROBABILITY_CHITS.has(neighbor.chit);
+            });
+        });
+    }
+
+    function hasTooManyAdjacentResources(tiles, maxAdjacentResources) {
+        const adjacency = currentConfig().adjacency;
+
+        return tiles.some((tile, index) => {
+            if (tile.resource === "desert") {
+                return false;
+            }
+
+            const matchingNeighbors = (adjacency[index] || []).filter((neighborIndex) => {
+                const neighbor = tiles[neighborIndex];
+                return neighbor && neighbor.resource === tile.resource;
+            });
+
+            return matchingNeighbors.length + 1 > maxAdjacentResources;
+        });
+    }
+
+    function isValidTileBag(tiles) {
+        if (!state.allowAdjacentHighProbability && hasAdjacentHighProbabilityChits(tiles)) {
+            return false;
+        }
+
+        return !hasTooManyAdjacentResources(tiles, 2);
+    }
+
+    function generateTileBag() {
+        for (let attempt = 0; attempt < MAX_SHUFFLE_ATTEMPTS; attempt += 1) {
+            const tiles = createTileBag();
+            if (isValidTileBag(tiles)) {
+                return tiles;
+            }
+        }
+
+        return createTileBag();
+    }
+
+    function updateTile(tileData, index) {
+        const tile = document.getElementById(`tile-${index}`);
+        const circle = document.getElementById(`circle-${index}`);
+        const config = currentConfig();
+
+        if (!tile || !circle) {
+            return;
+        }
+
+        tile.className = `hex-${config.className} hex-base ${tileData.resource}`;
+        tile.setAttribute("alt", tileData.resource);
+        tile.classList.toggle("high-prob", tileData.chit === 6);
+        tile.classList.toggle("high-prob-special", tileData.chit === 8);
+
+        circle.className = `circle-${config.className} circle-base font-size-wrap`;
+
+        if (tileData.resource === "desert") {
+            circle.classList.add("desert-chit");
+            circle.innerHTML = `<div class="tile-chit-${config.className} chit-number-base"></div>`;
+            return;
+        }
+
+        const highProbabilityClass = tileData.chit === 8
+            ? " high-prob-special"
+            : tileData.chit === 6
+                ? " high-prob"
+                : "";
+        circle.innerHTML = `
+            <div class="tile-chit-${config.className} chit-number-base${highProbabilityClass}">${tileData.chit}</div>
+            <div class="prob-dots-base small-font-size-wrap${highProbabilityClass}">${tileData.probability}</div>
+        `;
+    }
+
+    function fillTiles() {
+        generateTileBag().forEach(updateTile);
+    }
+
+    function validateCustomSettings(resources, chits) {
+        const config = currentConfig();
+        const totalResources = Object.values(resources).reduce((sum, count) => sum + count, 0);
+        const totalChits = chits.length;
+        const expectedChits = config.tileCount - resources.desert;
+
+        if (Object.values(resources).some((count) => count < 0)) {
+            alert("Resource counts cannot be negative.");
+            return false;
+        }
+
+        if (totalResources !== config.tileCount) {
+            alert(`Total resource tiles must be ${config.tileCount}. You have ${totalResources}.`);
+            return false;
+        }
+
+        if (totalChits !== expectedChits) {
+            alert(`Total number chits must be ${expectedChits}. You have ${totalChits}.`);
+            return false;
+        }
+
+        return true;
+    }
+
+    function saveCustomSettings() {
+        const resources = getResourceCountsFromInputs();
+        const chits = buildChitsFromInputs();
+
+        if (!validateCustomSettings(resources, chits)) {
+            return;
+        }
+
+        state.boardByMode[state.mode] = {
+            resources: buildResourcesFromCounts(resources),
+            chits
+        };
+
+        const modalElement = document.getElementById("combinedModal");
+        const modal = modalElement && window.bootstrap
+            ? window.bootstrap.Modal.getOrCreateInstance(modalElement)
+            : null;
+
+        if (modal) {
+            modal.hide();
+        }
+
+        generateBoard();
+    }
+
+    function populateSettingsModal() {
+        const boardState = state.boardByMode[state.mode];
+
+        COUNTED_RESOURCES.forEach((resource) => {
+            setNumberInputValue(`num_${resource}`, countItems(boardState.resources, resource));
+        });
+        setNumberInputValue("num_desert", getDesertCount());
+
+        CHIT_VALUES.forEach((chit) => {
+            setNumberInputValue(`num_${chit}`, countItems(boardState.chits, chit));
+        });
+
+        const adjacentInput = document.getElementById("adjacent_6_8_input");
+        if (adjacentInput) {
+            adjacentInput.checked = state.allowAdjacentHighProbability;
+        }
+    }
+
+    function syncModeFromDom() {
+        const nextMode = readMode();
+        if (nextMode !== state.mode) {
+            state.mode = nextMode;
+            buildTiles();
+        }
+    }
+
+    function updateModeControls() {
+        const boardTypeSelect = document.getElementById("board-type-select");
+        if (boardTypeSelect) {
+            boardTypeSelect.value = state.mode;
+        }
+
+        document.querySelectorAll("[data-map-mode]").forEach((button) => {
+            const isActive = button.dataset.mapMode === state.mode;
+            button.classList.toggle("btn-primary", isActive);
+            button.classList.toggle("btn-outline-primary", !isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+        });
+    }
+
+    function switchBoardMode(mode) {
+        if (!boardConfigs[mode]) {
+            return;
+        }
+
+        state.mode = mode;
+        writeMode(mode);
+        buildTiles();
+        updateModeControls();
+        populateSettingsModal();
+        fillTiles();
+    }
+
+    function generateBoard(event) {
+        if (event && typeof event.preventDefault === "function") {
+            event.preventDefault();
+        }
+
+        syncModeFromDom();
+        fillTiles();
+    }
+
+    function toggleSetting(settingName) {
+        if (settingName === "6_8") {
+            const input = document.getElementById("adjacent_6_8_input");
+            state.allowAdjacentHighProbability = input ? input.checked : true;
+        }
+    }
+
+    function start() {
+        state.mode = readMode();
+        writeMode(state.mode);
+        buildTiles();
+        updateModeControls();
+        populateSettingsModal();
+        fillTiles();
+
+        const combinedModal = document.getElementById("combinedModal");
+        if (combinedModal) {
+            combinedModal.addEventListener("show.bs.modal", populateSettingsModal);
+        }
+    }
+
+    window.generateBoard = generateBoard;
+    window.populateSettingsModal = populateSettingsModal;
+    window.saveCustomSettings = saveCustomSettings;
+    window.setBoardMode = switchBoardMode;
+    window.switchBoardMode = switchBoardMode;
+    window.toggleSetting = toggleSetting;
+    window.toggleDisplaySetting = function () {};
+    window.selectMode = function () {
+        const selectedMode = document.getElementById("pick-mode");
+
+        if (selectedMode) {
+            switchBoardMode(selectedMode.value);
+            return;
+        }
+
+        syncModeFromDom();
+        updateModeControls();
+        populateSettingsModal();
+        fillTiles();
+    };
+    window.selectShuffle = generateBoard;
+
+    start();
+}());
