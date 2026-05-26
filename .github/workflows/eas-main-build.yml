@@ -91,5 +91,5 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Build iOS
-        run: eas build --platform ios --profile ${{ inputs.profile }} --non-interactive --wait
+      - name: Build and submit iOS to TestFlight
+        run: eas build --platform ios --profile ${{ inputs.profile }} --non-interactive --auto-submit --wait

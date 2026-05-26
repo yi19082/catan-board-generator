@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Catan Board Generator",
+    "name": "Catan Board Super Generator",
     "slug": "catan-board-generator",
     "version": "1.0.0",
     "newArchEnabled": false,
@@ -17,7 +17,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yi19082.catanboardgenerator"
+      "bundleIdentifier": "com.yi19082.catanboardgenerator",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "buildNumber": "2"
     },
     "android": {
       "package": "com.yi19082.catanboardgenerator",
